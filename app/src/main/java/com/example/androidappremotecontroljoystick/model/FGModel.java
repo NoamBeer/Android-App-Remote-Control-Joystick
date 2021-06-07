@@ -22,11 +22,11 @@ public class FGModel {
     }
 
     public void setRudder(double rudder) {
-        send("set /controls/flight/elevator " + rudder + "\r\n");
+        send("set /controls/flight/rudder " + rudder + "\r\n");
     }
 
     public void setThrottle(double throttle) {
-        send("set /controls/flight/elevator " + throttle + "\r\n");
+        send("set /controls/flight/current-engine/throttle " + throttle + "\r\n");
     }
 
     public void connect(String host, int port) {
