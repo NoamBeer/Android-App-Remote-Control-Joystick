@@ -1,44 +1,69 @@
 package com.example.androidappremotecontroljoystick.model;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+
 public class FGModel {
-    private double aileron;
-    private double elevator;
-    private double rudder;
-    private double throttle;
+    Thread t;
+    Socket fgConnection;
+    PrintWriter writer;
+    BlockingQueue<Runnable> dispatchQueue = new LinkedBlockingQueue<>();
+    boolean stop = false;
 
     public void setAileron(double aileron) {
-        this.aileron = aileron;
-        //TODO: send to FG
+        send("set /controls/flight/aileron " + aileron + "\r\n");
     }
 
     public void setElevator(double elevator) {
-        this.elevator = elevator;
-        //TODO: send to FG
+        send("set /controls/flight/elevator " + elevator + "\r\n");
     }
 
     public void setRudder(double rudder) {
-        this.rudder = rudder;
-        //TODO: send to FG
+        send("set /controls/flight/elevator " + rudder + "\r\n");
     }
 
     public void setThrottle(double throttle) {
-        this.throttle = throttle;
-        //TODO: send to FG
+        send("set /controls/flight/elevator " + throttle + "\r\n");
     }
 
-    //    TODO
     public void connect(String host, int port) {
+        try {
+            fgConnection = new Socket(host, port);
+            writer = new PrintWriter(fgConnection.getOutputStream(), true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    //    TODO
     public void disconnect() {
+        stop = true;
+        t.interrupt();
     }
 
-    //    TODO
     public void start() {
+        t = new Thread(() -> {
+            while (!stop) {
+                try {
+                    dispatchQueue.take().run();
+                } catch (InterruptedException e) {
+                    break;
+                }
+            }
+        });
+        t.start();
     }
 
-    //    TODO
     public void send(String command) {
+        try {
+            dispatchQueue.put(() -> {
+                writer.print(command);
+                writer.flush();
+            });
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

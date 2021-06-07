@@ -4,11 +4,6 @@ import com.example.androidappremotecontroljoystick.model.FGModel;
 
 public class ViewModel extends androidx.lifecycle.ViewModel {
     private FGModel fgModel;
-    private double VMaileron;
-    private double VMelevator;
-    private double VMrudder;
-    private double VMthrottle;
-
 
     public ViewModel(FGModel fgModel) {
         this.fgModel = fgModel;
@@ -30,8 +25,15 @@ public class ViewModel extends androidx.lifecycle.ViewModel {
         fgModel.setThrottle(VMthrottle);
     }
 
-    //    TODO
     public void connect(String host, int port) {
         fgModel.connect(host, port);
+    }
+
+    public void start() {
+        fgModel.start();
+    }
+
+    public void disconnect() {
+        fgModel.disconnect();
     }
 }
