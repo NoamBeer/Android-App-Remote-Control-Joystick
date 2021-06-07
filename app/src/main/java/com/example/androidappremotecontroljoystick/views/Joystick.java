@@ -8,4 +8,5 @@ public class Joystick extends View {
     public Joystick(Context context) {
         super(context);
     }
+
 }

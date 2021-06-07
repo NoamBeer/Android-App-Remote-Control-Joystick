@@ -19,7 +19,7 @@ public class FGModel {
      * @param aileron value to set.
      */
     public void setAileron(double aileron) {
-        send("aileron ", String.valueOf(aileron));
+        send("flight/aileron ", String.valueOf(aileron));
     }
 
     /**
@@ -28,7 +28,7 @@ public class FGModel {
      * @param elevator value to set.
      */
     public void setElevator(double elevator) {
-        send("elevator ", String.valueOf(elevator));
+        send("flight/elevator ", String.valueOf(elevator));
     }
 
     /**
@@ -37,7 +37,7 @@ public class FGModel {
      * @param rudder value to set.
      */
     public void setRudder(double rudder) {
-        send("rudder ", String.valueOf(rudder));
+        send("flight/rudder ", String.valueOf(rudder));
     }
 
     /**
@@ -46,7 +46,7 @@ public class FGModel {
      * @param throttle value to set.
      */
     public void setThrottle(double throttle) {
-        send("current-engine/throttle ", String.valueOf(throttle));
+        send("engines/current-engine/throttle ", String.valueOf(throttle));
     }
 
     /**
@@ -99,7 +99,7 @@ public class FGModel {
     public void send(String parameter, String value) {
         try {
             dispatchQueue.put(() -> {
-                writer.print("set /controls/flight/" + parameter + value + "\r\n");
+                writer.print("set /controls/" + parameter + value + "\r\n");
                 writer.flush();
             });
         } catch (InterruptedException e) {

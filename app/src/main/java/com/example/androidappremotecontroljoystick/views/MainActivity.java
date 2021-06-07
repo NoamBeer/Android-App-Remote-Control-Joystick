@@ -2,8 +2,9 @@ package com.example.androidappremotecontroljoystick.views;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
+import android.os.Parcelable;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -35,6 +36,15 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 vm = new ViewModel(new FGModel());
                 vm.connect(inputHost, Integer.parseInt(inputPort));
+                vm.start();
+//                test connection to FG:
+                vm.setVMrudder(1);
+                vm.setVMaileron(-1);
+                vm.setVMelevator(1);
+                vm.setVMthrottle(0.5);
+//                Intent intent = new Intent(this, SteeringActivity.class);
+//                intent.putExtra("VM", (Parcelable) vm);
+//                startActivity(intent);
             }
         });
     }

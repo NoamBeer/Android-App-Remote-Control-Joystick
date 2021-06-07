@@ -1,8 +1,11 @@
 package com.example.androidappremotecontroljoystick.viewModel;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.example.androidappremotecontroljoystick.model.FGModel;
 
-public class ViewModel extends androidx.lifecycle.ViewModel {
+public class ViewModel extends androidx.lifecycle.ViewModel implements Parcelable {
     private FGModel fgModel;
 
     public ViewModel(FGModel fgModel) {
@@ -35,5 +38,15 @@ public class ViewModel extends androidx.lifecycle.ViewModel {
 
     public void disconnect() {
         fgModel.disconnect();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
     }
 }
