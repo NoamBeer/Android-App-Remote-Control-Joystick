@@ -56,12 +56,14 @@ public class FGModel {
      * @param port - port for the socket.
      */
     public void connect(String host, int port) {
-        try {
-            fgConnection = new Socket(host, port);
-            writer = new PrintWriter(fgConnection.getOutputStream(), true);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        new Thread(() -> {
+            try {
+                fgConnection = new Socket(host, port);
+                writer = new PrintWriter(fgConnection.getOutputStream(), true);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 
     /**
@@ -89,9 +91,10 @@ public class FGModel {
     }
 
     /**
-     * Sends a command to FG by puting it in dispatchQueue.
+     * Sends a command to FG by putting it in dispatchQueue.
+     *
      * @param parameter to set.
-     * @param value to set.
+     * @param value     to set.
      */
     public void send(String parameter, String value) {
         try {
