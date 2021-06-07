@@ -14,19 +14,19 @@ public class FGModel {
     boolean stop = false;
 
     public void setAileron(double aileron) {
-        send("set /controls/flight/aileron " + aileron + "\r\n");
+        send("aileron ", String.valueOf(aileron));
     }
 
     public void setElevator(double elevator) {
-        send("set /controls/flight/elevator " + elevator + "\r\n");
+        send("elevator ", String.valueOf(elevator));
     }
 
     public void setRudder(double rudder) {
-        send("set /controls/flight/rudder " + rudder + "\r\n");
+        send("rudder ", String.valueOf(rudder));
     }
 
     public void setThrottle(double throttle) {
-        send("set /controls/flight/current-engine/throttle " + throttle + "\r\n");
+        send("current-engine/throttle ", String.valueOf(throttle));
     }
 
     public void connect(String host, int port) {
@@ -56,10 +56,10 @@ public class FGModel {
         t.start();
     }
 
-    public void send(String command) {
+    public void send(String parameter, String value) {
         try {
             dispatchQueue.put(() -> {
-                writer.print(command);
+                writer.print("set /controls/flight/" + parameter + value + "\r\n");
                 writer.flush();
             });
         } catch (InterruptedException e) {
