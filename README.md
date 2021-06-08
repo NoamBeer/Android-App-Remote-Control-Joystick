@@ -1,122 +1,70 @@
 # :joystick: Android-App-Remote-Control-Joystick
 ## 🔎 Overview
-
+This Android app allows the user to connect to a computer that's running FlightGear and control the aircraft.
 
 ### Special Features
-
+1) Connection Validation?
+2) 
 
 ## 👪 Project Hierarchy
 
 To view the detailed hierarchy, expand the sections below:
 <details>
-<summary>AnomalyDetectionWebApp</summary>
-   <p>
-
-```
-Detector.js
-```
-
-</p>
+<summary>java</summary>
+  
 <p>
 
 <details>
-<summary>detector-addon</summary>
+<summary>model</summary>
 <p>
 
 ```
-├── AnomalyDetector.h
-├── HybridAnomalyDetector.cpp
-├── HybridAnomalyDetector.h
-├── SimpleAnomalyDetector.cpp
-├── SimpleAnomalyDetector.h
-├── anomaly_detection_util.cpp
-├── anomaly_detection_util.h
-├── binding.gyp
-├── build
-│   └── Release
-│       └── cppaddon.node
-├── index.cpp
-├── index.h
-├── index.js
-├── minCircle.cpp
-├── minCircle.h
-├── node_modules
-├── package.json
-├── timeseries.cpp
-└── timeseries.h
+
 ```
 </p>
 </details>
-   <p>
-
-```
-server.js
-```
-
-</p>
+  
 <details>
-<summary>src</summary>
+<summary>viewModel</summary>
 <p>
 
 ```
-├── assets
-|    ├── css
-|    |   └── material-kit-react.css.map
-|    ├── img
-|    │   ├── 404.gif
-|    │   └── background.jpg
-|    ├── jss
-|    │   ├── material-kit-react
-|    │   │   ├── components
-|    │   │   │   ├── buttonStyle.js
-|    │   │   │   ├── customDropdownStyle.js
-|    │   │   │   ├── headerLinksStyle.js
-|    │   │   │   ├── headerStyle.js
-|    │   │   │   └── parallaxStyle.js
-|    │   │   ├── tooltipsStyle.js
-|    │   │   └── views
-|    │   │       ├── components.js
-|    │   │       └── componentsSections
-|    │   │           └── navbarsStyle.js
-|    │   └── material-kit-react.js
-|    └── scss
-├── components
-│   ├── AlgorithmsList.js
-│   ├── AnomalyTable.js
-│   ├── CustomButtons
-│   │   └── Button.js
-│   ├── CustomDropdown
-│   │   ├── CustomDropdown.js
-│   │   └── CustomDropdown.jsx
-│   ├── DetectButton.js
-│   ├── Grid
-│   │   ├── GridContainer.js
-│   │   └── GridItem.js
-│   ├── Header
-│   │   ├── Header.js
-│   │   └── HeaderLinks.js
-│   ├── Notification.js
-│   ├── Parallax
-│   │   └── Parallax.js
-│   └── UploadButton.js
-├── index.css
-├── index.js
-└── views
-      └── Components
-          └── Components.js
+
 ```
 
 </p>
 </details>
+   
+   <details>
+<summary>views</summary>
+<p>
+
+```
+
+```
+
+</p>
+</details>
+
+</p>
+</details>
+
+<details>
+<summary>res</summary>
+<p>
+
+```
+
+```
 
 </p>
 </details>
 
 ## 🔧 Technical Requirements
-
+1) Launch FlightGear and use Autopilot.
 
 ## 📋 Installation Guide for Clean Environment
-
+1) Download & install FlightGear v2020.3.6.
 
 ## 📚 Further Documentation
 
