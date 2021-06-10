@@ -15,8 +15,12 @@ public class SteeringActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_steering);
-
-//        vm = (ViewModel) getIntent().getParcelableExtra("VM");
-//        vm.setVMrudder(-1);
+        vm = ViewModel.getViewModel();
+        vm.start();
+//                test connection to FG:
+        vm.setVMrudder(1);
+        vm.setVMaileron(-1);
+        vm.setVMelevator(1);
+        vm.setVMthrottle(0.5);
     }
 }
