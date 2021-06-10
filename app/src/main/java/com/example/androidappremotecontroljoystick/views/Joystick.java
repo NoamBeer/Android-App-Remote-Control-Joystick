@@ -5,12 +5,13 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 import android.content.Context;
 
 import androidx.annotation.Nullable;
 
-public class Joystick extends View {
+public class Joystick extends View implements View.OnTouchListener {
     private final float centerX = (float)(getWidth() / 2);
     private final float centerY = (float)(getWidth() / 2);
     private final int bgRadius = Math.min(getWidth(), getHeight()) / 4;
@@ -22,6 +23,7 @@ public class Joystick extends View {
      */
     public Joystick(Context context) {
         super(context);
+        setOnTouchListener((OnTouchListener) this);
     }
 
     /**
@@ -34,6 +36,7 @@ public class Joystick extends View {
                     @Nullable @org.jetbrains.annotations.Nullable AttributeSet attrs,
                     int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        setOnTouchListener((OnTouchListener) this);
     }
 
     /**
@@ -44,8 +47,8 @@ public class Joystick extends View {
     public Joystick(Context context,
                     @Nullable @org.jetbrains.annotations.Nullable AttributeSet attrs) {
         super(context, attrs);
+        setOnTouchListener((OnTouchListener) this);
     }
-
     /**
      * this function draws the joystick
      * @param x - the new x of the joystick
@@ -60,5 +63,23 @@ public class Joystick extends View {
         colors.setARGB(255, 0, 0, 255);
         joystickCanvas.drawCircle(x, y, fgRadius, colors);
         this.draw(joystickCanvas);
+    }
+
+    @Override
+    public void draw(Canvas canvas) {
+        super.draw(canvas);
+        joystickDraw(centerX, centerY);
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent me) {
+        if (v.equals(this)) {
+            if (me.getAction() != me.ACTION_UP) {
+                joystickDraw(me.getX(), me.getY());
+            } else {
+                joystickDraw(centerX, centerY);
+            }
+        }
+        return true;
     }
 }
