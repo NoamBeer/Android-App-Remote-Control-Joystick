@@ -42,7 +42,17 @@ public class ViewModel extends androidx.lifecycle.ViewModel {
                 e.printStackTrace();
             }
         }
+        FGModel.createModel();
         viewModel = new ViewModel(FGModel.getFgModel());
+    }
+
+    /**
+     * Getter of connect.
+     *
+     * @return true if connection was established.
+     */
+    public boolean isConnected() {
+        return fgModel.isConnected();
     }
 
     public void setVMaileron(double VMaileron) {
