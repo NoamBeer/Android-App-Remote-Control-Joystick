@@ -34,7 +34,11 @@ public class MainActivity extends AppCompatActivity {
             if (inputHost.isEmpty() || inputPort.isEmpty()) {
                 Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
             } else {
-                vm = new ViewModel(new FGModel());
+//                create a new Model
+                FGModel.createModel();
+                ViewModel.createViewModel();
+//                create a new ViewModel
+                vm = ViewModel.getViewModel();
                 vm.connect(inputHost, Integer.parseInt(inputPort));
                 vm.start();
 //                test connection to FG:

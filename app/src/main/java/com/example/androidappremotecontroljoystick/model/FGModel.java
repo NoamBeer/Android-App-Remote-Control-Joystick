@@ -1,5 +1,7 @@
 package com.example.androidappremotecontroljoystick.model;
 
+import android.util.Log;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -12,6 +14,43 @@ public class FGModel {
     PrintWriter writer;
     BlockingQueue<Runnable> dispatchQueue = new LinkedBlockingQueue<>();
     boolean stop = false;
+    private static FGModel fgModel;
+
+    /**
+     * Private constructor of FGModel.
+     */
+    private FGModel() {
+    }
+
+    /**
+     * FGModel getter, returns an instance of FGModel in case it was already created.
+     *
+     * @return Instance of FGModel.
+     */
+    public static FGModel getFgModel() {
+        if (fgModel == null) {
+            try {
+                throw new Exception("fgModel was not created");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return fgModel;
+    }
+
+    /**
+     * FGModel creator, creates a FGModel in case it wasn't created before.
+     */
+    public static void createModel() {
+        if (fgModel != null) {
+            try {
+                throw new Exception("fgModel was already created");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        fgModel = new FGModel();
+    }
 
     /**
      * Sets the aileron value in FG.
@@ -99,6 +138,10 @@ public class FGModel {
     public void send(String parameter, String value) {
         try {
             dispatchQueue.put(() -> {
+//                busy-waiting loop, not ideal for synchronization but should consider
+//                while (fgConnection == null){
+//                    Log.i(null, "Waiting for Socket creation");
+//                }
                 writer.print("set /controls/" + parameter + value + "\r\n");
                 writer.flush();
             });
