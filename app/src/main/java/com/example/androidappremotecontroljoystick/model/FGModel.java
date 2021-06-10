@@ -1,7 +1,5 @@
 package com.example.androidappremotecontroljoystick.model;
 
-import android.util.Log;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -15,6 +13,7 @@ public class FGModel {
     BlockingQueue<Runnable> dispatchQueue = new LinkedBlockingQueue<>();
     boolean stop = false;
     private static FGModel fgModel;
+    private boolean connected = false;
 
     /**
      * Private constructor of FGModel.
@@ -50,6 +49,15 @@ public class FGModel {
             }
         }
         fgModel = new FGModel();
+    }
+
+    /**
+     * Getter if connect.
+     *
+     * @return true is connection was established.
+     */
+    public boolean isConnected() {
+        return connected;
     }
 
     /**
@@ -98,6 +106,7 @@ public class FGModel {
         new Thread(() -> {
             try {
                 fgConnection = new Socket(host, port);
+                connected = true;
                 writer = new PrintWriter(fgConnection.getOutputStream(), true);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -138,10 +147,6 @@ public class FGModel {
     public void send(String parameter, String value) {
         try {
             dispatchQueue.put(() -> {
-//                busy-waiting loop, not ideal for synchronization but should consider
-//                while (fgConnection == null){
-//                    Log.i(null, "Waiting for Socket creation");
-//                }
                 writer.print("set /controls/" + parameter + value + "\r\n");
                 writer.flush();
             });
