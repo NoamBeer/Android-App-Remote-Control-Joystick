@@ -72,7 +72,6 @@ public class Joystick extends View implements View.OnTouchListener {
         joystickCanvas.drawCircle(centerX, centerY, bgRadius, colors);
         colors.setARGB(255, 0, 0, 255);
         joystickCanvas.drawCircle(x, y, fgRadius, colors);
-        this.draw(joystickCanvas);
     }
 
     @Override

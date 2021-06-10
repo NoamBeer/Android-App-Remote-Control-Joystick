@@ -4,6 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="16dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp"
+    android:orientation="vertical"
     tools:context=".views.SteeringActivity">
 
     <EditText
@@ -15,4 +20,9 @@
         android:text="TEST"
         tools:layout_editor_absoluteX="66dp"
         tools:layout_editor_absoluteY="157dp" />
+
+    <com.example.androidappremotecontroljoystick.views.Joystick
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:id="@+id/joystick" />
 </androidx.constraintlayout.widget.ConstraintLayout>
