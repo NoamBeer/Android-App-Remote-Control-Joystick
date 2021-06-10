@@ -16,6 +16,7 @@ public class Joystick extends View implements View.OnTouchListener {
     private final float centerY = (float)(getWidth() / 2);
     private final int bgRadius = Math.min(getWidth(), getHeight()) / 4;
     private final int fgRadius = Math.min(getWidth(), getHeight()) / 6;
+    private JoystickListener joystickcb;
 
     /**
      * CTOR of Joystick, which is inherited from View
@@ -24,6 +25,9 @@ public class Joystick extends View implements View.OnTouchListener {
     public Joystick(Context context) {
         super(context);
         setOnTouchListener((OnTouchListener) this);
+        if (context instanceof JoystickListener) {
+            joystickcb = (JoystickListener) context;
+        }
     }
 
     /**
@@ -37,6 +41,9 @@ public class Joystick extends View implements View.OnTouchListener {
                     int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         setOnTouchListener((OnTouchListener) this);
+        if (context instanceof JoystickListener) {
+            joystickcb = (JoystickListener) context;
+        }
     }
 
     /**
@@ -48,6 +55,9 @@ public class Joystick extends View implements View.OnTouchListener {
                     @Nullable @org.jetbrains.annotations.Nullable AttributeSet attrs) {
         super(context, attrs);
         setOnTouchListener((OnTouchListener) this);
+        if (context instanceof JoystickListener) {
+            joystickcb = (JoystickListener) context;
+        }
     }
     /**
      * this function draws the joystick
@@ -75,11 +85,33 @@ public class Joystick extends View implements View.OnTouchListener {
     public boolean onTouch(View v, MotionEvent me) {
         if (v.equals(this)) {
             if (me.getAction() != me.ACTION_UP) {
-                joystickDraw(me.getX(), me.getY());
+
+                float displacement = (float) Math.sqrt(Math.pow(me.getX() - centerX, 2) + Math.pow(me.getY() - centerY, 2));
+                if (displacement < bgRadius) {
+                    joystickDraw(me.getX(), me.getY());
+                    joystickcb.onJoystickMoved((me.getX() - centerX) / bgRadius,
+                            (me.getY() - centerY) / bgRadius,
+                            getId());
+
+                } else {
+                    float ratio = bgRadius / displacement;
+                    float constrainedX = centerX + (me.getX() - centerX) * ratio;
+                    float constrainedY = centerY + (me.getY() - centerY) * ratio;
+                    joystickDraw(constrainedX, constrainedY);
+                    joystickcb.onJoystickMoved((constrainedX - centerX) / bgRadius,
+                            (constrainedY - centerY) / bgRadius,
+                            getId());
+                }
+
             } else {
                 joystickDraw(centerX, centerY);
+                joystickcb.onJoystickMoved(0,0, getId());
             }
         }
         return true;
+    }
+
+    public interface JoystickListener {
+        void onJoystickMoved(float xPercent, float yPercent, int id);
     }
 }
