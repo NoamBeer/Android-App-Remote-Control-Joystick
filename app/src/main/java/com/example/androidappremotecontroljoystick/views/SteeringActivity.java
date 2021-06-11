@@ -5,22 +5,27 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.androidappremotecontroljoystick.R;
 import com.example.androidappremotecontroljoystick.viewModel.ViewModel;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 
-public class SteeringActivity extends AppCompatActivity {
+public class SteeringActivity extends AppCompatActivity implements Joystick.JoystickListener {
     ViewModel vm;
     Joystick joystick;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        joystick = new Joystick(this);
         setContentView(R.layout.activity_steering);
         vm = ViewModel.getViewModel();
         vm.start();
-//                test connection to FG:
-        vm.setVMrudder(1);
-        vm.setVMaileron(-1);
-        vm.setVMelevator(1);
-        vm.setVMthrottle(0.5);
+    }
+
+    @Override
+    public void onJoystickMoved(float xPos, float yPos) {
+        vm.setVMelevator(-yPos);
+        vm.setVMaileron(-xPos);
+        Log.d(null, "X: " + xPos + "% Y: " + yPos + "%");
     }
 }

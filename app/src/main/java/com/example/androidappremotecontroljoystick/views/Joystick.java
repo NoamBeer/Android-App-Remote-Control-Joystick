@@ -1,9 +1,8 @@
 package com.example.androidappremotecontroljoystick.views;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.PorterDuff;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -12,26 +11,36 @@ import android.content.Context;
 import androidx.annotation.Nullable;
 
 public class Joystick extends View implements View.OnTouchListener {
-    private final float centerX = (float)(getWidth() / 2);
-    private final float centerY = (float)(getWidth() / 2);
-    private final int bgRadius = Math.min(getWidth(), getHeight()) / 4;
-    private final int fgRadius = Math.min(getWidth(), getHeight()) / 6;
-    private JoystickListener joystickcb;
+    private float centerX;
+    private float centerY;
+    private float bgRadius;
+    private float fgRadius;
+    private JoystickListener joystickListener;
+    private Paint paint;
+    private boolean isInit;
+    private float width, height;
+    private int padding;
+    private float currX, currY;
+    private Canvas canvas;
+    private Bitmap bitmap;
+
 
     /**
      * CTOR of Joystick, which is inherited from View
+     *
      * @param context
      */
     public Joystick(Context context) {
         super(context);
         setOnTouchListener((OnTouchListener) this);
         if (context instanceof JoystickListener) {
-            joystickcb = (JoystickListener) context;
+            joystickListener = (JoystickListener) context;
         }
     }
 
     /**
      * CTOR of Joystick, which is inherited from View
+     *
      * @param context
      * @param attrs
      * @param defStyleAttr
@@ -42,12 +51,13 @@ public class Joystick extends View implements View.OnTouchListener {
         super(context, attrs, defStyleAttr);
         setOnTouchListener((OnTouchListener) this);
         if (context instanceof JoystickListener) {
-            joystickcb = (JoystickListener) context;
+            joystickListener = (JoystickListener) context;
         }
     }
 
     /**
-     * CTOR of Joytick, which is inherited from View
+     * CTOR of Joystick, which is inherited from View
+     *
      * @param context
      * @param attrs
      */
@@ -56,62 +66,109 @@ public class Joystick extends View implements View.OnTouchListener {
         super(context, attrs);
         setOnTouchListener((OnTouchListener) this);
         if (context instanceof JoystickListener) {
-            joystickcb = (JoystickListener) context;
+            joystickListener = (JoystickListener) context;
         }
     }
+
     /**
-     * this function draws the joystick
-     * @param x - the new x of the joystick
-     * @param y - the new y of the joystick
+     * Initializes Joystick.
      */
-    private void joystickDraw(float x, float y) {
-        Canvas joystickCanvas = new Canvas();
-        Paint colors = new Paint();
-        joystickCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
-        colors.setARGB(255, 50, 50, 50);
-        joystickCanvas.drawCircle(centerX, centerY, bgRadius, colors);
-        colors.setARGB(255, 0, 0, 255);
-        joystickCanvas.drawCircle(x, y, fgRadius, colors);
-        this.draw(joystickCanvas);
+    private void initJoystick() {
+        height = getHeight();
+        width = getWidth();
+        padding = 50;
+        bgRadius = Math.min(getWidth(), getHeight()) / 3 - padding;
+        fgRadius = Math.min(getWidth(), getHeight()) / 6 - padding;
+        currX = width / 2;
+        currY = height / 2;
+        centerX = width / 2;
+        centerY = height / 2;
+        paint = new Paint();
+        isInit = true;
+    }
+
+    /**
+     * Draws on canvas.
+     *
+     * @param canvas
+     */
+    @Override
+    protected void onDraw(Canvas canvas) {
+        if (!isInit) {
+            initJoystick();
+        }
+        drawBase(canvas);
+        drawJoystick(canvas);
+        postInvalidateDelayed(10);
+        invalidate();
+    }
+
+    /**
+     * Draws the Joystick's circle in the correct position.
+     *
+     * @param canvas
+     */
+    private void drawJoystick(Canvas canvas) {
+        paint.setColor(getResources().getColor(android.R.color.black));
+        paint.setStyle(Paint.Style.FILL);
+        canvas.drawCircle(currX, currY, fgRadius + padding, paint);
+    }
+
+    /**
+     * Draws the outline of the Joystick.
+     *
+     * @param canvas
+     */
+    private void drawBase(Canvas canvas) {
+        paint.reset();
+        paint.setColor(getResources().getColor(android.R.color.darker_gray));
+        paint.setStyle(Paint.Style.FILL);
+        canvas.drawCircle(width / 2, height / 2, bgRadius + padding, paint);
     }
 
     @Override
-    public void draw(Canvas canvas) {
-        super.draw(canvas);
-        joystickDraw(centerX, centerY);
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+        canvas = new Canvas(bitmap);
     }
 
+    /**
+     * Defines action upon touch.
+     *
+     * @param v  - view
+     * @param me - MotionEvent
+     * @return true
+     */
     @Override
     public boolean onTouch(View v, MotionEvent me) {
         if (v.equals(this)) {
+//            if the action isn't releasing the touch
             if (me.getAction() != me.ACTION_UP) {
-
                 float displacement = (float) Math.sqrt(Math.pow(me.getX() - centerX, 2) + Math.pow(me.getY() - centerY, 2));
-                if (displacement < bgRadius) {
-                    joystickDraw(me.getX(), me.getY());
-                    joystickcb.onJoystickMoved((me.getX() - centerX) / bgRadius,
-                            (me.getY() - centerY) / bgRadius,
-                            getId());
-
+//                if the joystick is within the borders
+                if (displacement + fgRadius < bgRadius + padding) {
+                    currX = me.getX();
+                    currY = me.getY();
+                    drawJoystick(canvas);
+                    joystickListener.onJoystickMoved((currX - centerX) / (fgRadius + padding),
+                            (currY - centerY) / (fgRadius + padding));
                 } else {
-                    float ratio = bgRadius / displacement;
-                    float constrainedX = centerX + (me.getX() - centerX) * ratio;
-                    float constrainedY = centerY + (me.getY() - centerY) * ratio;
-                    joystickDraw(constrainedX, constrainedY);
-                    joystickcb.onJoystickMoved((constrainedX - centerX) / bgRadius,
-                            (constrainedY - centerY) / bgRadius,
-                            getId());
+                    float ratio = (fgRadius + padding) / displacement;
+                    currX = centerX + (me.getX() - centerX) * ratio;
+                    currY = centerY + (me.getY() - centerY) * ratio;
+                    drawJoystick(canvas);
+                    joystickListener.onJoystickMoved((currX - centerX) / (fgRadius + padding),
+                            (currY - centerY) / (fgRadius + padding));
                 }
-
             } else {
-                joystickDraw(centerX, centerY);
-                joystickcb.onJoystickMoved(0,0, getId());
+                drawJoystick(canvas);
             }
         }
         return true;
     }
 
     public interface JoystickListener {
-        void onJoystickMoved(float xPercent, float yPercent, int id);
+        void onJoystickMoved(float xPos, float yPos);
     }
 }
