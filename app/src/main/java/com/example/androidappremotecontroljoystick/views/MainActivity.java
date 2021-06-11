@@ -4,13 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.androidappremotecontroljoystick.R;
-import com.example.androidappremotecontroljoystick.model.FGModel;
 import com.example.androidappremotecontroljoystick.viewModel.ViewModel;
 
 public class MainActivity extends AppCompatActivity {
