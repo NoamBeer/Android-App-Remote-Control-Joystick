@@ -109,7 +109,7 @@ public class Joystick extends View implements View.OnTouchListener {
      * @param canvas
      */
     private void drawJoystick(Canvas canvas) {
-        paint.setColor(getResources().getColor(android.R.color.black));
+        paint.setColor(getResources().getColor(android.R.color.white));
         paint.setStyle(Paint.Style.FILL);
         canvas.drawCircle(currX, currY, fgRadius + padding, paint);
     }
@@ -121,7 +121,7 @@ public class Joystick extends View implements View.OnTouchListener {
      */
     private void drawBase(Canvas canvas) {
         paint.reset();
-        paint.setColor(getResources().getColor(android.R.color.darker_gray));
+        paint.setColor(getResources().getColor(android.R.color.holo_blue_light));
         paint.setStyle(Paint.Style.FILL);
         canvas.drawCircle(width / 2, height / 2, bgRadius + padding, paint);
     }
