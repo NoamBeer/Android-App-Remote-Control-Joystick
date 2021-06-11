@@ -61,7 +61,8 @@ To view the detailed hierarchy, expand the sections below:
 </details>
 
 ## 🔧 Technical Requirements
-1) Launch FlightGear and use Autopilot.
+1) Launch FlightGear and use Autostart.
+2) Make sure you use Android API level 16 and above.
 
 ## 📋 Installation Guide for Clean Environment
 1) Download & install FlightGear v2020.3.6.
