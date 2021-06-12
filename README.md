@@ -76,5 +76,6 @@ The project's hierarchy represents the MVVM architecture of the project:
 
 ## 📋 Installation Guide for Clean Environment
 1) Download & install FlightGear v2020.3.6.
+2) Use Android Studio (or any other Android-compatible IDE).
 
 ## 🎥 Demo
