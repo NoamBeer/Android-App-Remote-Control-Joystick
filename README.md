@@ -2,9 +2,6 @@
 ## 🔎 Overview
 This Android app allows the user to connect to a computer that's running FlightGear and control the aircraft.
 
-### Special Features
-1) Connection Validation?
-2) 
 
 ## 👪 Project Hierarchy
 
@@ -19,7 +16,7 @@ To view the detailed hierarchy, expand the sections below:
 <p>
 
 ```
-
+FGModel.java
 ```
 </p>
 </details>
@@ -29,7 +26,7 @@ To view the detailed hierarchy, expand the sections below:
 <p>
 
 ```
-
+ViewModel.java
 ```
 
 </p>
@@ -40,7 +37,9 @@ To view the detailed hierarchy, expand the sections below:
 <p>
 
 ```
-
+Joystick.java
+MainActivity.java
+SteeringActivity.java 
 ```
 
 </p>
@@ -52,13 +51,24 @@ To view the detailed hierarchy, expand the sections below:
 <details>
 <summary>res</summary>
 <p>
-
+<details>
+  <summary>layout</summary>
+<p>
+  
 ```
-
+activity_main.xml
+activity_steering.xml
 ```
-
+  
 </p>
 </details>
+</p>
+</details>
+
+The project's hierarchy represents the MVVM architecture of the project:
+
+![image](https://user-images.githubusercontent.com/63717070/121778412-7221fa00-cb9f-11eb-9820-b1d6f8ce16f6.png)
+
 
 ## 🔧 Technical Requirements
 1) Launch FlightGear and use Autostart.
@@ -66,8 +76,6 @@ To view the detailed hierarchy, expand the sections below:
 
 ## 📋 Installation Guide for Clean Environment
 1) Download & install FlightGear v2020.3.6.
-
-## 📚 Further Documentation
-
+2) Use Android Studio (or any other Android-compatible IDE).
 
 ## 🎥 Demo
