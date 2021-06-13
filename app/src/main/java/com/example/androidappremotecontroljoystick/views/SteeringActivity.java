@@ -4,8 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.androidappremotecontroljoystick.R;
 import com.example.androidappremotecontroljoystick.viewModel.ViewModel;
-
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.SeekBar;
@@ -68,7 +66,14 @@ public class SteeringActivity extends AppCompatActivity implements Joystick.Joys
     @Override
     public void onJoystickMoved(float xPos, float yPos) {
         vm.setVMelevator(-yPos);
-        vm.setVMaileron(-xPos);
+        vm.setVMaileron(xPos);
         Log.d(null, "X: " + xPos + "% Y: " + yPos + "%");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        vm.disconnect();
+        this.finishAffinity();
     }
 }
