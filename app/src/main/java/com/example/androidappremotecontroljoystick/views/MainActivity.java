@@ -38,6 +38,11 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
             } else {
                 vm.connect(inputHost, Integer.parseInt(inputPort));
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 //              validate socket connection
                 if (!vm.isConnected()) {
                     Toast.makeText(this, "Connection was not established, please wait and then reconnect", Toast.LENGTH_LONG).show();
