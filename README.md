@@ -79,3 +79,4 @@ The project's hierarchy represents the MVVM architecture of the project:
 2) Use Android Studio (or any other Android-compatible IDE).
 
 ## 🎥 Demo
+[Our Demo Video](https://youtu.be/glyZPc6Of4Q)
